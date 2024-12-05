@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:sm_assignment_1/bloc/api_bloc.dart';
 import 'package:sm_assignment_1/bloc/post_bloc.dart';
 import 'package:sm_assignment_1/screens/welcome.dart';
 import 'package:sm_assignment_1/utils/theme/app_colors.dart';
@@ -21,12 +22,11 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<PostBloc>(create: (context) => PostBloc()),
+        BlocProvider<ApiBloc>(create: (context) => ApiBloc()),
       ],
       child: MaterialApp(
-        title: 'SM Technologies',
+        title: 'SM Technology',
         theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          // useMaterial3: true,
           scaffoldBackgroundColor: AppColors.backgroundColor,
         ),
         home: const Welcome(),
