@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:sm_assignment_1/bloc/api_bloc.dart';
 import 'package:sm_assignment_1/utils/theme/app_texts.dart';
 import 'package:sm_assignment_1/widgets/custom_button.dart';
@@ -29,7 +28,7 @@ class Assignment3 extends StatelessWidget {
                         latitude: 23.82675662255527,
                         longitude: 90.34918958257161));
                   },
-                  child: Text(
+                  child: const Text(
                     "Fetch",
                   ),
                 ),
@@ -46,7 +45,7 @@ class Assignment3 extends StatelessWidget {
                           latitude: 23.82675662255527,
                           longitude: 90.34918958257161));
                     },
-                    child: Text(
+                    child: const Text(
                       "Fetch",
                     ),
                   ),

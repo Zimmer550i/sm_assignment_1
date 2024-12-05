@@ -86,6 +86,7 @@ class ApiBloc extends Bloc<ApiEvent, ApiState> {
     }
 
     return await Geolocator.getCurrentPosition(
+      // ignore: deprecated_member_use
       desiredAccuracy: LocationAccuracy.high,
     );
   }

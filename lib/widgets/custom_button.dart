@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sm_assignment_1/utils/theme/app_colors.dart';
-import 'package:sm_assignment_1/utils/theme/app_sizes.dart';
+import 'package:sm_assignment_1/widgets/glassmorphism.dart';
 
 class CustomButton extends StatefulWidget {
   final Widget child;
@@ -16,26 +15,18 @@ class CustomButton extends StatefulWidget {
 class _CustomButtonState extends State<CustomButton> {
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: InkWell(
-        borderRadius: BorderRadius.circular(9999),
-        onTap: widget.onPressed,
-        child: Container(
-          decoration: BoxDecoration(
-            color: AppColors.primaryColor,
-            borderRadius: BorderRadius.circular(9999),
-            border: Border.all(
-              color: AppColors.greyColor,
-            ),
-          ),
-          height: AppSizes.sizeButtonHeight,
-          padding: const EdgeInsets.symmetric(
-            // vertical: AppSizes.smallPadding,
-            horizontal: AppSizes.mediumPadding,
-          ),
-          child:
-              widget.isLoading ? const CircularProgressIndicator() : widget.child,
-        ),
+    return InkWell(
+      borderRadius: BorderRadius.circular(9999),
+      onTap: widget.onPressed,
+      child: Glassmorphism(
+        width: MediaQuery.of(context).size.width,
+        // height: AppSizes.sizeButtonHeight,
+        // padding: const EdgeInsets.symmetric(
+        //   // vertical: AppSizes.smallPadding,
+        //   horizontal: AppSizes.mediumPadding,
+        // ),
+        child:
+            widget.isLoading ? const CircularProgressIndicator() : widget.child,
       ),
     );
   }
