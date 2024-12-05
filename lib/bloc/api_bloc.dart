@@ -9,10 +9,7 @@ import 'package:sm_assignment_1/utils/secrets/app_secrets.dart';
 abstract class ApiEvent {}
 
 class FetchWeatherEvent extends ApiEvent {
-  final double latitude;
-  final double longitude;
-
-  FetchWeatherEvent({required this.latitude, required this.longitude});
+  FetchWeatherEvent();
 }
 
 abstract class ApiState {}
