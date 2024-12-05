@@ -39,15 +39,18 @@ class Assignment1 extends StatelessWidget {
                     ),
                     BlocBuilder<PostBloc, PostState>(builder: (context, state) {
                       if (state is PostInitial) {
-                        return CustomButton(
-                          onPressed: () {
-                            context.read<PostBloc>().add(FetchPosts());
-                          },
-                          child: Text(
-                            "Fetch Data",
-                            textAlign: TextAlign.center,
-                            style: AppTexts.bodyText.copyWith(
-                              color: AppColors.whiteColor,
+                        return Padding(
+                          padding: const EdgeInsets.only(top: AppSizes.mediumPadding),
+                          child: CustomButton(
+                            onPressed: () {
+                              context.read<PostBloc>().add(FetchPosts());
+                            },
+                            child: Text(
+                              "Fetch Data",
+                              textAlign: TextAlign.center,
+                              style: AppTexts.bodyText.copyWith(
+                                color: AppColors.whiteColor,
+                              ),
                             ),
                           ),
                         );

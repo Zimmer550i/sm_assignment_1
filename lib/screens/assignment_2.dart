@@ -58,6 +58,7 @@ class _Assignment2State extends State<Assignment2> {
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
+                              const SizedBox(height: AppSizes.mediumPadding,),
                               CustomButton(
                                 onPressed: () {
                                   context.read<PostBloc>().add(FetchPosts());
