@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 import 'package:sm_assignment_1/models/open_weather_model.dart';
 import 'package:sm_assignment_1/utils/constants/app_constants.dart';
@@ -40,8 +41,12 @@ class ApiBloc extends Bloc<ApiEvent, ApiState> {
     on<FetchWeatherEvent>((event, emit) async {
       emit(ApiLoading());
       try {
+        Position? position = await getCurrentLocation();
+        if (position == null) {
+          throw Exception("Error fetching user location.");
+        }
         final url = Uri.parse(
-          '$baseUrl?lat=${event.latitude}&lon=${event.longitude}&exclude=minutely,hourly&appid=$apiKey&units=metric',
+          '$baseUrl?lat=${position.latitude}&lon=${position.longitude}&exclude=minutely,hourly&appid=$apiKey&units=metric',
         );
 
         final response = await http.get(url);
@@ -57,5 +62,31 @@ class ApiBloc extends Bloc<ApiEvent, ApiState> {
         emit(ApiError(error.toString()));
       }
     });
+  }
+
+  Future<Position?> getCurrentLocation() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error('Location services are disabled.');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permissions are denied.');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error('Location permissions are permanently denied.');
+    }
+
+    return await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.high,
+    );
   }
 }
