@@ -25,7 +25,7 @@ class Assignment3 extends StatelessWidget {
           ),
           SafeArea(
             child: Padding(
-              padding: const EdgeInsets.all(AppSizes.largePadding),
+              padding: const EdgeInsets.all(AppSizes.mediumPadding),
               child: Glassmorphism(
                 child: Column(
                   children: [
@@ -104,8 +104,8 @@ class Assignment3 extends StatelessWidget {
             ),
           ),
           Positioned(
-            left: AppSizes.largePadding + AppSizes.mediumPadding,
-            right: AppSizes.largePadding + AppSizes.mediumPadding,
+            left: AppSizes.mediumPadding + AppSizes.mediumPadding,
+            right: AppSizes.mediumPadding + AppSizes.mediumPadding,
             bottom: AppSizes.largePadding + AppSizes.mediumPadding,
             child: CustomButton(
               onPressed: () {

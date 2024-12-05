@@ -9,6 +9,8 @@ import 'package:sm_assignment_1/utils/constants/app_constants.dart';
 
 abstract class PostEvent {}
 
+class ResetEvent extends PostEvent {}
+
 class FetchPosts extends PostEvent {}
 
 class SavePosts extends PostEvent {}
@@ -38,6 +40,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
     on<FetchPosts>(_onFetchPosts);
     on<SavePosts>(_onSavePosts);
     on<LoadPosts>(_onLoadPosts);
+    on<ResetEvent>(_onResetEvent);
   }
 
   Future<void> _onFetchPosts(FetchPosts event, Emitter<PostState> emit) async {
@@ -82,5 +85,9 @@ class PostBloc extends Bloc<PostEvent, PostState> {
     final posts =
         savedData.map((e) => PostModel.fromJson(jsonDecode(e))).toList();
     emit(PostLoaded(posts));
+  }
+
+  FutureOr<void> _onResetEvent(ResetEvent event, Emitter<PostState> emit) {
+    emit(PostInitial());
   }
 }

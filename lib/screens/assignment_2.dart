@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:sm_assignment_1/bloc/post_bloc.dart';
 import 'package:sm_assignment_1/utils/theme/app_colors.dart';
 import 'package:sm_assignment_1/utils/theme/app_sizes.dart';
@@ -17,7 +17,7 @@ class Assignment2 extends StatefulWidget {
 
 class _Assignment2State extends State<Assignment2> {
   bool isLoaded = false;
-  final postBox = Hive.box('postBox').get('data');
+  final box = Hive.box('postBox');
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,7 @@ class _Assignment2State extends State<Assignment2> {
           ),
           SafeArea(
             child: Padding(
-              padding: const EdgeInsets.all(AppSizes.largePadding),
+              padding: const EdgeInsets.all(AppSizes.mediumPadding),
               child: Glassmorphism(
                 child: Column(
                   children: [
@@ -46,26 +46,35 @@ class _Assignment2State extends State<Assignment2> {
                       "Hive Database Usege",
                       style: AppTexts.bodyText,
                     ),
-                    Text(
-                      "Offline Storage: ${postBox == null ? 0 : (postBox as List).length} Posts",
-                      style: AppTexts.tinyText,
+                    ValueListenableBuilder(
+                      valueListenable: box.listenable(),
+                      builder: (context, Box<dynamic> box, _) {
+                        final postData = box.get('data');
+                        final postCount =
+                            postData == null ? 0 : (postData as List).length;
+
+                        return Text(
+                          "Offline Storage: $postCount Posts",
+                          style: AppTexts
+                              .tinyText, // Replace with your custom style
+                        );
+                      },
                     ),
                     BlocBuilder<PostBloc, PostState>(
                       builder: (context, state) {
-                        if (state is! PostLoaded) {
+                        if (!isLoaded) {
                           return Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              const SizedBox(height: AppSizes.mediumPadding,),
+                              const SizedBox(
+                                height: AppSizes.mediumPadding,
+                              ),
                               CustomButton(
                                 onPressed: () {
                                   context.read<PostBloc>().add(FetchPosts());
                                   context.read<PostBloc>().add(SavePosts());
-                                  setState(() {
-                                    debugPrint(postBox.toString());
-                                  });
                                 },
                                 child: state is PostLoading
                                     ? const Center(
@@ -73,7 +82,7 @@ class _Assignment2State extends State<Assignment2> {
                                         color: AppColors.whiteColor,
                                       ))
                                     : Text(
-                                        "Fetch",
+                                        "Fetch and Save",
                                         style: AppTexts.bodyText.copyWith(
                                           color: AppColors.whiteColor,
                                         ),
@@ -86,6 +95,9 @@ class _Assignment2State extends State<Assignment2> {
                               CustomButton(
                                 onPressed: () {
                                   context.read<PostBloc>().add(LoadPosts());
+                                  setState(() {
+                                    isLoaded = true;
+                                  });
                                 },
                                 child: Text(
                                   "Load",
@@ -99,7 +111,7 @@ class _Assignment2State extends State<Assignment2> {
                         } else {
                           return Expanded(
                             child: ListView.builder(
-                              itemCount: state.posts.length,
+                              itemCount: (state as PostLoaded).posts.length,
                               itemBuilder: (context, index) {
                                 return Padding(
                                   padding: const EdgeInsets.only(
@@ -139,8 +151,8 @@ class _Assignment2State extends State<Assignment2> {
             ),
           ),
           Positioned(
-            left: AppSizes.largePadding + AppSizes.mediumPadding,
-            right: AppSizes.largePadding + AppSizes.mediumPadding,
+            left: AppSizes.mediumPadding + AppSizes.mediumPadding,
+            right: AppSizes.mediumPadding + AppSizes.mediumPadding,
             bottom: AppSizes.largePadding + AppSizes.mediumPadding,
             child: CustomButton(
                 onPressed: () {

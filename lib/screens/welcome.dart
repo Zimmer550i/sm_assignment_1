@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sm_assignment_1/bloc/post_bloc.dart';
 import 'package:sm_assignment_1/screens/assignment_1.dart';
 import 'package:sm_assignment_1/screens/assignment_2.dart';
 import 'package:sm_assignment_1/screens/assignment_3.dart';
@@ -55,6 +57,7 @@ class Welcome extends StatelessWidget {
                   ),
                   CustomButton(
                     onPressed: () {
+                      context.read<PostBloc>().add(ResetEvent());
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (_) => const Assignment1(),
@@ -80,6 +83,7 @@ class Welcome extends StatelessWidget {
                   ),
                   CustomButton(
                     onPressed: () {
+                      context.read<PostBloc>().add(ResetEvent());
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (_) => const Assignment2(),
